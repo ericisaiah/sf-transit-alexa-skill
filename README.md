@@ -10,7 +10,15 @@ Feel free to create a pull request and improve the skill. At some point I might 
 
 ### Run
 
-To run the app locally, uncomment out the lines indicated at the top, and comment out the line:
+To run the app locally, install the needed node packages:
+
+    npm install
+
+Then uncomment the lines indicated at the top:
+
+    ///// UNCOMMENT BELOW TO TEST LOCALLY /////
+
+Comment out the line:
 
     exports.handler = function(event, context, callback) {
 
