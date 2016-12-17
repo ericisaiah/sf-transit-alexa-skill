@@ -27,3 +27,7 @@ As well as its closing brace, the very last `};`.
 Then run the command:
 
     node index.js
+
+## Notice
+
+Not authorized, sponsored, or endorsed by the San Francisco Municipal Transportation Agency (SFMTA).
