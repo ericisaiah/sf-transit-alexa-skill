@@ -1,12 +1,11 @@
 'use strict';
 
 /**
- * This sample demonstrates a simple skill built with the Amazon Alexa Skills Kit.
- * The Intent Schema, Custom Slots, and Sample Utterances for this skill, as well as
- * testing instructions are located at http://amzn.to/1LzFrj6
  *
- * For additional samples, visit the Alexa Skills Kit Getting Started guide at
- * http://amzn.to/1LGWsLG
+ * An Alexa skill for the Amazon Echo that retrieves Muni predictions via the NextBus API.
+ *
+ * Copyright (c) 2016 Eric Lukoff
+ *
  */
 
 ///// UNCOMMENT BELOW TO TEST LOCALLY /////
@@ -47,7 +46,6 @@ const queryStringBuilder = require('querystring');
 const APPLICATION_ID = process.env.APPLICATION_ID;
 const NEXTBUS_URL = 'http://webservices.nextbus.com/service/publicJSONFeed';
 
-// --------------- Helpers that build all of the responses -----------------------
 function buildSpeechletResponse(output, endSession) {
     return {
         outputSpeech: {
@@ -178,9 +176,6 @@ function onLaunch(intentRequest, session, callback) {
     callback(buildSpeechletResponse(welcomeResponse, false));
 }
 
-/**
- * Called when the user specifies an intent for this skill.
- */
 function onIntent(intentRequest, session, callback) {
 
     const intent = intentRequest.intent;
@@ -206,9 +201,6 @@ function onIntent(intentRequest, session, callback) {
     }
 }
 
-// --------------- Main handler -----------------------
-
-// The JSON body of the request is provided in the event parameter.
 exports.handler = function(event, context, callback) {
     try {
 
