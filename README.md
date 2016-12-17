@@ -7,3 +7,15 @@ SF Transit is an Alexa skill for the Amazon Echo that provides [San Francisco Mu
 SFMTA provides the [documentation for NextBus's predictions API here](https://www.sfmta.com/getting-around/transit/schedules-trip-planners/accessing-nextmuni-vehicle-prediction-data).
 
 Feel free to create a pull request and improve the skill. At some point I might try to add tests that correspond to Amazon's Alexa test documentation. If you're interested in doing that, even better.
+
+### Run
+
+To run the app locally, uncomment out the lines indicated at the top, and comment out the line:
+
+    exports.handler = function(event, context, callback) {
+
+As well as its closing brace, the very last `};`.
+
+Then run the command:
+
+    node index.js
