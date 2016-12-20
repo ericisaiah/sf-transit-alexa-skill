@@ -171,7 +171,7 @@ function stopIntent(intent, callback) {
 
 function onLaunch(intentRequest, session, callback) {
 
-    const welcomeResponse = "Please specify a route and stop ID.";
+    const welcomeResponse = "Welcome to SF Transit. I can tell you when the next arrival is coming for your bus or train. Try asking me by specifying the route and stop ID. For instance, 'when is the next n. coming for stop thirty-nine eleven.' Or ask for help by saying, 'Help.'";
 
     callback(buildSpeechletResponse(welcomeResponse, false));
 }
