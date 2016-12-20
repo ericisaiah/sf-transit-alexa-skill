@@ -76,7 +76,7 @@ function getArrivalTime(route, stopId, callback) {
         "command": "predictions",
         "a": "sf-muni",
         "r": route,
-        "s": stopId
+        "stopId": stopId
     };
     
     let queryString = queryStringBuilder.stringify(params);
