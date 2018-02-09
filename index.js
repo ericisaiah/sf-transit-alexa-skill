@@ -70,7 +70,7 @@ function buildResponse(sessionAttributes, speechletResponse) {
     };
 }
 
-function getArrivalTime(route, stopId, callback) {
+function getArrivalTimes(route, stopId, callback) {
     
     const params = {
         "command": "predictions",
@@ -97,7 +97,7 @@ function getArrivalTime(route, stopId, callback) {
 
                 let nextArrival,
                     terminusTitle,
-                    nextArrivalInMinutes;
+                    nextArrivalsInMinutes;
 
                 if (parsedBody.predictions.direction.length == undefined) {
                     nextArrival = parsedBody.predictions.direction;
@@ -108,12 +108,12 @@ function getArrivalTime(route, stopId, callback) {
                 terminusTitle = nextArrival.title;
 
                 if (nextArrival.prediction.length == undefined) {
-                    nextArrivalInMinutes = nextArrival.prediction.minutes;
+                    nextArrivalsInMinutes = [nextArrival.prediction.minutes];
                 } else {
-                    nextArrivalInMinutes = nextArrival.prediction[0].minutes;
+                    nextArrivalsInMinutes = nextArrival.prediction.map(((p) => p.minutes));
                 }
 
-                callback(terminusTitle, nextArrivalInMinutes);
+                callback(terminusTitle, nextArrivalsInMinutes);
             } else {
                 callback(null, null);
             }
@@ -128,6 +128,7 @@ function getRouteArrival(intent, callback) {
     
     const route = intent.slots.Route.value;
     const stopId = intent.slots.StopId.value;
+    const arrivalCount = intent.slots.ArrivalCount ? intent.slots.ArrivalCount.value : 1;
 
     if (route == undefined || stopId == undefined || route == '?' || stopId == '?') {
         const errorResponse = "Please specify a route and stop ID.";
@@ -135,16 +136,16 @@ function getRouteArrival(intent, callback) {
         return;
     }
 
-    getArrivalTime(route, stopId, function(terminusTitle, arrivalMinutes) {
+    getArrivalTimes(route, stopId, function(terminusTitle, arrivals) {
 
         let speechOutput;
 
-        if (terminusTitle && arrivalMinutes) {
-
-            let minutePlural = (arrivalMinutes == '1') ? 'minute' : 'minutes';
-
-            speechOutput = `The next ${route} to ${terminusTitle} is arriving in ${arrivalMinutes} ${minutePlural}`;
-
+        if (terminusTitle && arrivals) {
+            let estimates = arrivals.slice(0, arrivalCount).map((min) => `${min} ${min === '1' ? 'minute' : 'minutes'}`)
+            if (estimates.length > 0) {
+              estimates[estimates.length -1] = `and ${estimates[estimates.length -1]}`;
+            }
+            speechOutput = `The next ${route} ${terminusTitle} ${arrivalCount > 1 ? 'are' : 'is'} arriving in ${estimates.join(', ')}`;
         } else {
             speechOutput = `I'm not sure when the next ${route} is coming. It might not be running or the stop you specified might not be on the route.`;
         }
